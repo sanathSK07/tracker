@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 20 14.3% 4.1%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  --primary: 207 90% 54%;
+  --primary-foreground: 211 100% 99%;
+  --secondary: 60 4.8% 95.9%;
+  --secondary-foreground: 24 9.8% 10%;
+  --accent: 60 4.8% 95.9%;
+  --accent-foreground: 24 9.8% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --ring: 20 14.3% 4.1%;
+  --radius: 0.5rem;
+  
+  /* Custom invoice colors */
+  --invoice-primary: 212 64% 39%; /* #2c5aa0 */
+  --invoice-primary-dark: 220 64% 28%; /* #1e3f73 */
+  --invoice-success: 134 61% 41%; /* #28a745 */
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --primary: 207 90% 54%;
+  --primary-foreground: 211 100% 99%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 240 4.9% 83.9%;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/* Print styles */
+@media print {
+  body { 
+    margin: 0; 
+    background: white !important; 
+  }
+  .no-print { 
+    display: none !important; 
+  }
+  .invoice-container { 
+    box-shadow: none; 
+    margin: 0; 
+    border-radius: 0;
+  }
+  .print-area { 
+    width: 100% !important; 
+  }
+  .invoice-content {
+    padding: 20px !important;
+  }
+}
+
+/* Invoice specific styles */
+.invoice-primary {
+  color: hsl(var(--invoice-primary));
+}
+
+.bg-invoice-primary {
+  background-color: hsl(var(--invoice-primary));
+}
+
+.border-invoice-primary {
+  border-color: hsl(var(--invoice-primary));
+}
+
+.invoice-primary-dark {
+  color: hsl(var(--invoice-primary-dark));
+}
+
+.bg-invoice-primary-dark {
+  background-color: hsl(var(--invoice-primary-dark));
+}
+
+.border-invoice-primary-dark {
+  border-color: hsl(var(--invoice-primary-dark));
+}
+
+.invoice-success {
+  color: hsl(var(--invoice-success));
+}
+
+.bg-invoice-success {
+  background-color: hsl(var(--invoice-success));
+}
+
+.form-input:focus {
+  box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+}
+
+.service-row {
+  transition: all 0.3s ease;
+}
+
+.service-row.removing {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+/* Ensure invoice table styling */
+.invoice-table {
+  border-collapse: collapse;
+}
+
+.invoice-table th {
+  background-color: hsl(var(--invoice-primary));
+  color: white;
+  padding: 15px;
+  font-weight: bold;
+  border-bottom: 2px solid hsl(var(--invoice-primary-dark));
+}
+
+.invoice-table th:first-child {
+  text-align: left;
+}
+
+.invoice-table th:last-child {
+  text-align: right;
+  width: 150px;
+}
+
+.invoice-table td {
+  padding: 15px;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: top;
+}
+
+.invoice-table td:last-child {
+  text-align: right;
+  font-weight: bold;
+  font-size: 16px;
+  width: 150px;
+}
+
+.invoice-table tr:nth-child(even) {
+  background-color: #f8f9fa;
+}

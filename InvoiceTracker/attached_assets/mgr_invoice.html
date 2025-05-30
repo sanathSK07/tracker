@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice MGR-001 - MGR Cleaning Service</title>
+    <style>
+        @media print {
+            body { margin: 0; }
+            .no-print { display: none; }
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #2c5aa0;
+            padding-bottom: 20px;
+        }
+        
+        .company-info {
+            flex: 1;
+        }
+        
+        .company-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c5aa0;
+            margin-bottom: 10px;
+        }
+        
+        .company-details {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .invoice-title {
+            text-align: right;
+            flex: 1;
+        }
+        
+        .invoice-title h1 {
+            font-size: 36px;
+            color: #2c5aa0;
+            margin: 0;
+            font-weight: bold;
+        }
+        
+        .invoice-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .client-info, .invoice-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            color: #2c5aa0;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .info-line {
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .services-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            border: 1px solid #e9ecef;
+        }
+        
+        .services-table th {
+            background: #2c5aa0;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            border-bottom: 2px solid #1e3f73;
+        }
+        
+        .services-table th:first-child {
+            text-align: left;
+        }
+        
+        .services-table th:last-child {
+            text-align: right;
+            width: 150px;
+        }
+        
+        .services-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        
+        .services-table td:last-child {
+            text-align: right;
+            font-weight: bold;
+            font-size: 16px;
+            width: 150px;
+        }
+        
+        .services-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .total-section {
+            margin-top: 30px;
+            width: 100%;
+        }
+        
+        .totals-table {
+            width: 350px;
+            margin-left: auto;
+            border-collapse: collapse;
+        }
+        
+        .totals-table td {
+            padding: 8px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .totals-table .label-col {
+            text-align: right;
+            font-weight: bold;
+            width: 200px;
+        }
+        
+        .totals-table .amount-col {
+            text-align: right;
+            width: 150px;
+            font-weight: bold;
+        }
+        
+        .totals-table .final-total-row {
+            border-top: 2px solid #2c5aa0;
+            border-bottom: 2px solid #2c5aa0;
+        }
+        
+        .totals-table .final-total-row td {
+            padding: 12px 15px;
+            font-size: 18px;
+            color: #2c5aa0;
+            font-weight: bold;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e9ecef;
+            padding-top: 20px;
+        }
+        
+        .print-controls {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f0f4ff;
+            border-radius: 8px;
+            border: 2px dashed #2c5aa0;
+        }
+        
+        .print-button {
+            background: #2c5aa0;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0 10px 10px 0;
+            font-size: 16px;
+            display: inline-block;
+        }
+        
+        .print-button:hover {
+            background: #1e3f73;
+        }
+        
+        .save-button {
+            background: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0 10px 10px 0;
+            font-size: 16px;
+            display: inline-block;
+        }
+        
+        .save-button:hover {
+            background: #218838;
+        }
+        
+        .instructions {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .blank-field {
+            border-bottom: 1px solid #ccc;
+            min-height: 20px;
+            padding-bottom: 2px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="print-controls no-print">
+        <button class="print-button" onclick="printInvoice()">🖨️ Print Invoice</button>
+        <button class="save-button" onclick="savePDF()">💾 Save as PDF</button>
+        <button class="save-button" onclick="saveHTML()">📄 Save as HTML</button>
+        <div class="instructions">
+            <strong>To save as PDF:</strong><br>
+            1. Click "Save as PDF" button above, OR<br>
+            2. Use Ctrl+P (Cmd+P on Mac) → Choose "Save as PDF" as destination<br>
+            <strong>Having trouble?</strong> Try the "Save as HTML" option and open the file in your browser.
+        </div>
+    </div>
+    
+    <div class="invoice-container">
+        <div class="header">
+            <div class="company-info">
+                <div class="company-name">MGR CLEANING SERVICE</div>
+                <div class="company-details">
+                    106-45 Silverstone Drive<br>
+                    Toronto, ON M9V 4B1<br>
+                    Phone: (437) 777-3124<br>
+                    Email: mgrcscan@gmail.com
+                </div>
+            </div>
+            <div class="invoice-title">
+                <h1>INVOICE</h1>
+            </div>
+        </div>
+        
+        <div class="invoice-meta">
+            <div class="client-info">
+                <div class="section-title">BILL TO:</div>
+                <div class="info-line">
+                    <strong>Client Name:</strong><br>
+                    Building Management
+                </div>
+                <div class="info-line">
+                    <strong>Address:</strong><br>
+                    60 Stevenson Rd<br>
+                    Etobicoke, ON M9V 2B4
+                </div>
+            </div>
+            
+            <div class="invoice-details">
+                <div class="section-title">INVOICE DETAILS:</div>
+                <div class="info-line"><strong>Invoice #:</strong> MGR-001</div>
+                <div class="info-line"><strong>Date Issued:</strong> May 29, 2025</div>
+                <div class="info-line"><strong>Work Period:</strong> 7 days</div>
+                <div class="info-line"><strong>Workers:</strong> 5</div>
+            </div>
+        </div>
+        
+        <table class="services-table">
+            <thead>
+                <tr>
+                    <th>Description of Services</th>
+                    <th>Amount (CAD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <strong>Labour & Cleaning Services</strong><br>
+                        <div style="margin-top: 8px; color: #666; line-height: 1.5;">
+                            • Gym room shifting and equipment installation<br>
+                            • Senior room cleaning and arrangement<br>
+                            • Superintendent room, store room, and garbage room cleaning and shifting
+                        </div>
+                    </td>
+                    <td>$3,500.00</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="total-section">
+            <table class="totals-table">
+                <tr class="final-total-row">
+                    <td class="label-col">TOTAL AMOUNT DUE:</td>
+                    <td class="amount-col">$3,500.00</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Thank you for your business!</strong></p>
+            <p>Please remit payment by the due date specified above.</p>
+        </div>
+    </div>
+    
+    <script>
+        function printInvoice() {
+            window.print();
+        }
+        
+        function savePDF() {
+            // For most modern browsers
+            if (window.print) {
+                const originalTitle = document.title;
+                document.title = 'Invoice_MGR-001_' + new Date().toISOString().split('T')[0];
+                window.print();
+                document.title = originalTitle;
+            } else {
+                alert('Please use Ctrl+P (Cmd+P on Mac) and select "Save as PDF"');
+            }
+        }
+        
+        function saveHTML() {
+            const invoiceHTML = document.documentElement.outerHTML;
+            const blob = new Blob([invoiceHTML], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Invoice_MGR-001_' + new Date().toISOString().split('T')[0] + '.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Auto-optimize for printing
+        window.addEventListener('beforeprint', function() {
+            document.body.style.background = 'white';
+        });
+        
+        window.addEventListener('afterprint', function() {
+            document.body.style.background = '#f8f9fa';
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                savePDF();
+            }
+        });
+    </script>
+</body>
+</html>
